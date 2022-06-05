@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model PostTag {
+  postId    Int
+  tagId     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag       Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+}
+
+model Post {
+  id            Int         @id @default(autoincrement())
+  checksum      String      @unique @db.VarChar(255)
+  originalName  String      @db.VarChar(255)
+  fileDir       String      @db.VarChar(255)
+  width         Int
+  height        Int
+  fileSize      Int
+  format        String      @db.VarChar(255)
+  description   String?     @db.VarChar(255)
+  typeId        Int
+  uploaderId    Int
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  type          Type        @relation(fields: [typeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user          User        @relation(fields: [uploaderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  postTags      PostTag[]
+}
+
+model Role {
+  id         Int      @id @default(autoincrement())
+  name       String   @unique @db.VarChar(255)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  users      User[]
+}
+
+model TagNamespace {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tags      Tag[]    @relation("tag_namespacesTotags_namespace_id")
+}
+
+model Tag {
+  id             Int              @id @default(autoincrement())
+  name           String           @unique @db.VarChar(255)
+  namespaceId    Int?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  tagNamespaceFk TagNamespace?    @relation("tag_namespacesTotags_namespace_id", fields: [namespaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  postTag        PostTag[]
+}
+
+model Type {
+  id         Int      @id @default(autoincrement())
+  name       String   @unique @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  posts      Post[]
+}
+
+model User {
+  id            Int      @id @default(autoincrement())
+  name          String   @unique @db.VarChar(255)
+  passwordHash  String   @db.VarChar(255)
+  roleId        Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  role          Role    @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  post          Post[]
+}

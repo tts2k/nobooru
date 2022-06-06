@@ -59,7 +59,7 @@ model Tag {
   namespaceId    Int?
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
-  tagNamespaceFk TagNamespace?    @relation("tag_namespacesTotags_namespace_id", fields: [namespaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  namespace TagNamespace?    @relation("tag_namespacesTotags_namespace_id", fields: [namespaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   postTag        PostTag[]
 }
 

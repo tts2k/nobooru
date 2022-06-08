@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default Preferences = () => {
+export default function Preferences() {
     return (
         <h2>Preferences</h2>
     )

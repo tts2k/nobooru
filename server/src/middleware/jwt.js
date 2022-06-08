@@ -3,7 +3,7 @@ const AppError = require("../error/app-error");
 const prisma = require("../prisma");
 
 const verifyToken = (req, res, next) => {
-    let token = req.cookies.token;
+    let token = req.body.token;
     if (!token) {
         return next(AppError.unauthorized("No token provided."));
     }

@@ -48,9 +48,9 @@ const signIn = async (req, res, next) => {
 
         res
             .status(200)
-            .cookie('token', token, { httpOnly: true })
             .send({
-                message: "Login success"
+                message: "Login success",
+                token: token
             });
     }
     catch(err) {

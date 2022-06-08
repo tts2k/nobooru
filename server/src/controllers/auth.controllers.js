@@ -25,6 +25,10 @@ const signUp = async (req, res, next) => {
 
 const signIn = async (req, res, next) => {
     try {
+        if (!req.body.username || req.body.username.length === 0) {
+            return next(AppError.badRequest("Username cannot be empty."));
+        }
+
         const user = await prisma.user.findUnique({
             where: { name: req.body.username },
         });

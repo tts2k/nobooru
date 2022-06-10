@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
+import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import StartPage from "./pages/StartPage";
+import BrowsePage from "./pages/BrowsePage";
 
-import Preferences from "./components/Preferences/Preferences";
-import Dashboard from "./components/Dashboard/Dashboard";
-import Login from './components/Login/Login';
+function setToken(token) {
+  sessionStorage.setItem("token", token);
+}
+
+function getToken() {
+  return sessionStorage.getItem("token");
+}
 
 function App() {
-    const [token, setToken] = useState();
-
-    if (!token) {
-        return <Login setToken={setToken} />
-    }
-    return (
-        <div className="wrapper">
-            <h1>Application</h1>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/dashboard" element={<Dashboard/>} />
-                    <Route path="/prefererences" element={<Preferences/>} />
-                </Routes>
-            </BrowserRouter>
-        </div>
-    );
+  return (
+    <div className="wrapper">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<StartPage />} />
+          <Route path="/browse" element={<BrowsePage />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
 }
 
 export default App;

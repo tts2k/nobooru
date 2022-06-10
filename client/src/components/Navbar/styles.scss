@@ -1,0 +1,14 @@
+@import "../../styles/styles.scss";
+
+.main-nav {
+  background-color: $color-primary;
+  overflow: hidden;
+  a {
+    color: $color-bg;
+  }
+  li {
+    :hover {
+      background-color: $color-primary-700;
+    }
+  }
+}

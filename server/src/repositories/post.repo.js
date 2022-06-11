@@ -201,7 +201,7 @@ const createPost = async (imageFile, imageDir, checksum, imageDetails, postDetai
     }
     catch(err) {
         console.error(err);
-        if (err instanceof Prisma.PrismaClientKnownRequestError) {
+        if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
             throw err;
         }
         throw new Error("Internal server error");

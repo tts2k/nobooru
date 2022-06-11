@@ -11,4 +11,10 @@ const toPositiveInteger = (str) => {
     return null;
 }
 
-module.exports = { toPositiveInteger }
+const isStringNotNullOrEmpty = (str) => {
+    return str
+        && (str instanceof String || typeof(str) === "string")
+        && str.length > 0;
+}
+
+module.exports = { toPositiveInteger, isStringNotNullOrEmpty }

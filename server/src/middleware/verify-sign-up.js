@@ -9,9 +9,8 @@ const checkDuplicateUsername = async (req, res, next) => {
                 name: req.body.username
             }
         });
-        console.log(user);
         if (user) {
-            return next(AppError.badRequest("Username has been used"));
+            return next(AppError.badRequest("Username has been used."));
         }
 
         next();

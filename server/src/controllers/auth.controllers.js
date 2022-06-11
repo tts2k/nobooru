@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const AppError = require("../error/app-error");
 const DbError = require("../error/db-error");
-const prisma = require("../prisma");
 const userRepo = require("../repositories/user.repo");
 const { isStringNotNullOrEmpty } = require("../utils/misc.util");
 const HttpResCode = require("../constants").HttpResCode;

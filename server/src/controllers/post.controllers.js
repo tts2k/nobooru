@@ -1,9 +1,10 @@
 const { resolve } = require("path");
-const { Prisma } = require('@prisma/client');
 const { toPositiveInteger } = require("../utils/misc.util");
 const AppError = require("../error/app-error");
+const DbError = require("../error/db-error");
 const postRepo = require("../repositories/post.repo");
 const { generateSha256Sum, processImage, writeBufferToPath } = require("../utils/file.util");
+const HttpResCode = require("../constants").HttpResCode;
 
 /* GET */
 const getPostsLatest = async (req, res, next) => {
@@ -12,7 +13,8 @@ const getPostsLatest = async (req, res, next) => {
         const result = await postRepo.getLatest(page);
         return res.status(200).json(result);
     } catch (err) {
-        next(AppError.internalError(err.message))
+        console.error(err);
+        next(AppError.internalError())
     }
 }
 
@@ -30,12 +32,13 @@ const getPostById = async (req, res, next) => {
             return next(AppError.notFound("Post not found."));
         }
 
-        return res.status(200).json({
+        return res.status(HttpResCode.Ok).json({
             post: post
         })
 
     } catch (err) {
-        next(AppError.internalError(err.message));
+        console.error(err);
+        next(AppError.internalError());
     }
 }
 
@@ -55,9 +58,10 @@ const getPostsByTags = async (req, res, next) => {
         // Get posts
         const result = await postRepo.getByTags(tags, page);
 
-        return res.status(200).json(result);
+        return res.status(HttpResCode.Ok).json(result);
     } catch (err) {
-        next(AppError.internalError(err.message));
+        console.error(err);
+        next(AppError.internalError());
     }
 }
 
@@ -92,16 +96,16 @@ const createPostFromFile = async (req, res, next) => {
 
         const post = await Promise.all([moveRaw, moveThumb]);
 
-        res.status(200).send({
+        return res.status(HttpResCode.Created).send({
             status: "success",
             postId: post.id
         });
     } catch(err) {
-        if (err instanceof Prisma.PrismaClientKnownRequestError) {
-            if (err.code === 'P2002')
-                next(AppError.badRequest('Duplicate image. An image with the same hash has already been uploaded.'));
+        if (err instanceof DbError) {
+            next(err);
         }
-        next(AppError.internalError(err.message));
+        console.error(err);
+        next(AppError.internalError());
     }
 }
 
@@ -112,10 +116,11 @@ const deletePostById = async (req, res, next) =>{
             next(AppError.badRequest("Post id is empty"));
         }
         await postRepo.deleteById(req.body.postId);
-        return res.status(200).json({ message: "Post deleted" });
+        return res.status(HttpResCode.Ok).json({ message: "Post deleted" });
     }
     catch (err) {
-        next(AppError.internalError(err.message));
+        console.error(err);
+        next(AppError.internalError());
     }
 }
 

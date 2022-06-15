@@ -1,5 +1,5 @@
 const toPositiveInteger = (str) => {
-    if (typeof str !== 'string') {
+    if (str instanceof String || typeof str !== 'string') {
         return null;
     }
 

@@ -55,12 +55,14 @@ model TagNamespace {
 
 model Tag {
   id             Int              @id @default(autoincrement())
-  name           String           @unique @db.VarChar(255)
+  name           String           @db.VarChar(255)
   namespaceId    Int?
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
   namespace TagNamespace?    @relation("tag_namespacesTotags_namespace_id", fields: [namespaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   postTag        PostTag[]
+
+  @@unique([name, namespaceId])
 }
 
 model Type {

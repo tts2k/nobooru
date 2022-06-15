@@ -14,12 +14,12 @@ const checkInput = (req) => {
         return next(AppError.badRequest("Username or password cannot be empty"));
     }
 
-    return { username, password };
+    return {username, password};
 }
 
 const signUp = async (req, res, next) => {
     try {
-        const { username, password } = checkInput(req);
+        const {username, password} = checkInput(req);
         await userRepo.createUser(username, password);
         return res.status(HttpResCode.Created).send({ message: "User was registered successfully"});
     }
@@ -34,7 +34,7 @@ const signUp = async (req, res, next) => {
 
 const signIn = async (req, res, next) => {
     try {
-        const { username, password } = checkInput(req);
+        const {username, password} = checkInput(req);
 
         const user = await userRepo.getUserByName(username);
 

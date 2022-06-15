@@ -112,8 +112,6 @@ const getById = async (id) => {
         }
     });
 
-    console.log(post.postTags[0].tag.namespace.name);
-
     if (post === null)
         return post;
 
@@ -157,7 +155,7 @@ const deleteById = async (id) => {
     await prisma.$transaction([deletePostTags, deletePost]);
 }
 
-const createPost = async (imageFile, imageDir, checksum, imageDetails, postDetails, userId) => {
+const create = async (imageFile, imageDir, checksum, imageDetails, postDetails, userId) => {
     const postTagsConnect = postDetails.tags.map(e => {
         return {
             tag: {
@@ -187,7 +185,6 @@ const createPost = async (imageFile, imageDir, checksum, imageDetails, postDetai
         return post;
     }
     catch(err) {
-        console.error(err);
         if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
             throw new DbError("Already exists image with the same hash.");
         }
@@ -200,5 +197,5 @@ module.exports = {
     getById,
     getByTags,
     deleteById,
-    createPost
+    create
 }

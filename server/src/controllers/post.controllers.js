@@ -87,7 +87,7 @@ const createPostFromFile = async (req, res, next) => {
         // Create new post record
         const postDetails = JSON.parse(jsonFile.buffer.toString()); // Parse json for post metadata
 
-        await postRepo.createPost(imageFile, imageDir, checksum, imageDetails, postDetails, req.userId);
+        await postRepo.create(imageFile, imageDir, checksum, imageDetails, postDetails, req.userId);
 
         // Move image to configured directory
         const fileName = `${checksum}.${imageDetails.format}`;

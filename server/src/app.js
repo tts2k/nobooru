@@ -7,6 +7,7 @@ const cors = require('cors');
 
 const authRouter = require('./routes/auth.routes');
 const postRouter = require('./routes/post.routes')
+const tagRouter = require('./routes/tag.routes')
 const errorHandler = require('./middleware/error-handler');
 
 const AppError = require('./error/app-error');
@@ -28,10 +29,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 /* Routes */
-// Auth
 app.use('/api/auth', authRouter);
-// Post
 app.use('/api/post', postRouter);
+app.use('/api/tag', tagRouter);
 
 // Unhandled routes
 app.all('*', (req, res, next) => {

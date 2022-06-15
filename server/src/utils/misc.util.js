@@ -1,3 +1,7 @@
+const isPositiveInteger = (num) => {
+    return !isNaN(num) && Number.isInteger(num) && num > 0;
+}
+
 const toPositiveInteger = (str) => {
     if (str instanceof String || typeof str !== 'string') {
         return null;
@@ -5,7 +9,7 @@ const toPositiveInteger = (str) => {
 
     const num = Number(str);
 
-    if (Number.isInteger(num) && num > 0)
+    if (isPositiveInteger(num))
         return num;
 
     return null;
@@ -17,4 +21,4 @@ const isStringNotNullOrEmpty = (str) => {
         && str.length > 0;
 }
 
-module.exports = { toPositiveInteger, isStringNotNullOrEmpty }
+module.exports = { toPositiveInteger, isStringNotNullOrEmpty, isPositiveInteger }

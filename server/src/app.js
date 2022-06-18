@@ -12,13 +12,14 @@ const errorHandler = require('./middleware/error-handler');
 
 const AppError = require('./error/app-error');
 const config = require('./config/config');
+const { checkImageDirPermission } = require('./utils/file.util');
 
 const app = express();
 
 // cors
 app.use(cors({
-    origin: config.clientUrl,
-    credential: true
+  origin: config.clientUrl,
+  credential: true
 }));
 
 app.use(logger('dev'));
@@ -27,7 +28,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'public')));
+//Check for permission
+const isPermitted = checkImageDirPermission();
+if (!isPermitted) {
+  throw new Error("Image directory is inaccessible");
+}
+
+app.use('/', express.static(path.join(__dirname, 'public')));
+app.use('/images', express.static(path.resolve(config.imageDir)));
 
 /* Routes */
 app.use('/api/auth', authRouter);
@@ -36,7 +44,7 @@ app.use('/api/tag', tagRouter);
 
 // Unhandled routes
 app.all('*', (req, res, next) => {
-    next(AppError.notFound('Not found'));
+  next(AppError.notFound('Not found'));
 })
 
 // Error route

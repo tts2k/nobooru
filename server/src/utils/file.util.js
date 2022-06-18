@@ -1,6 +1,7 @@
 const sharp = require('sharp');
 const crypto = require('crypto');
 const fs = require('fs');
+const config = require("../config/config");
 
 const generateSha256Sum = (fileBuffer) => {
     const hashSum = crypto.createHash("sha256");
@@ -29,4 +30,16 @@ const writeBufferToPath = async (buffer, path, fileName) => {
     return fs.promises.writeFile(`${path}/${fileName}`, buffer);
 }
 
-module.exports = { generateSha256Sum, processImage, writeBufferToPath }
+const checkImageDirPermission = () => {
+  try {
+    const path = config.imageDir;
+    console.log(path);
+    fs.accessSync(path, fs.constants.R_OK | fs.constants.W_OK);
+    return true;
+  }
+  catch (err) {
+    return false;
+  }
+}
+
+module.exports = { generateSha256Sum, processImage, writeBufferToPath, checkImageDirPermission }

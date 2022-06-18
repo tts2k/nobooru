@@ -1,21 +1,25 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Preferences from './components/Preferences/Preferences';
-import Dashboard from './components/Dashboard/Dashboard';
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import StartPage from "./pages/StartPage";
+import BrowsePage from "./pages/BrowsePage";
+
+function setToken(token) {
+  sessionStorage.setItem("token", token);
+}
+
+function getToken() {
+  return sessionStorage.getItem("token");
+}
 
 function App() {
   return (
-    <div classname="wrapper">
-        <h1>Application</h1>
-        <BrowserRouter>
-            <Switch>
-                <Route path="/dashboard">
-                    <Dashboard />
-                </Route>
-                <Route path="/preferences">
-                    <Preferences />
-                </Route>
-            </Switch>
-        </BrowserRouter>
+    <div className="wrapper">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<StartPage />} />
+          <Route path="/browse" element={<BrowsePage />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

@@ -1,0 +1,30 @@
+@mixin reset-list {
+  list-style: none;
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  a {
+    text-decoration: none;
+    color: black;
+  }
+}
+
+@mixin horizontal-list {
+  @include reset-list;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  a {
+    display: block;
+    padding: 10px 16px;
+  }
+}
+
+@mixin center-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}

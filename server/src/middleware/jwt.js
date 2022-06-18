@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const AppError = require("../error/app-error");
 const prisma = require("../prisma");
+const config = require("../config/config");
 
 const verifyToken = (req, res, next) => {
     let token = req.body.token;
@@ -8,7 +9,7 @@ const verifyToken = (req, res, next) => {
         return next(AppError.unauthorized("No token provided."));
     }
 
-    jwt.verify(token, process.env.SECRET, (err, decoded) =>{
+    jwt.verify(token, config.secret, (err, decoded) =>{
         if (err) {
             return next(AppError.unauthorized("Invalid token."));
         }

@@ -5,6 +5,7 @@ const DbError = require("../error/db-error");
 const postRepo = require("../repositories/post.repo");
 const { generateSha256Sum, processImage, writeBufferToPath } = require("../utils/file.util");
 const HttpResCode = require("../constants").HttpResCode;
+const config = require("../config/config");
 
 /* GET */
 const getPostsLatest = async (req, res, next) => {
@@ -68,7 +69,7 @@ const getPostsByTags = async (req, res, next) => {
 /* POST */
 const createPostFromFile = async (req, res, next) => {
     // Hardcode for now, will move to user config later
-    const imageDir = resolve("images");
+    const imageDir = resolve(config.imageDir);
     try {
         const files = req.files;
         if (!files) {

@@ -11,12 +11,13 @@ const tagRouter = require('./routes/tag.routes')
 const errorHandler = require('./middleware/error-handler');
 
 const AppError = require('./error/app-error');
+const config = require('./config/config');
 
 const app = express();
 
 // cors
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: config.clientUrl,
     credential: true
 }));
 

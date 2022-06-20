@@ -5,6 +5,8 @@ const AllowedMimeTypes = [
     "image/png", ".image/jpeg", "image/jpeg", "image/jpg", "image/webp"
 ];
 
+const AccessTokenLife = 7890000; // 3 months
+
 const HttpResCode = {
     Ok: 200,
     Created: 201,
@@ -15,4 +17,11 @@ const HttpResCode = {
     Internal: 500
 }
 
-module.exports = { Roles, TagNamespaces, AllowedMimeTypes, Types, HttpResCode }
+module.exports = {
+  Roles,
+  TagNamespaces,
+  AllowedMimeTypes,
+  Types,
+  HttpResCode,
+  AccessTokenLife,
+}

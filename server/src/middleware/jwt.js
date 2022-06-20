@@ -4,18 +4,18 @@ const prisma = require("../prisma");
 const config = require("../config/config");
 
 const verifyToken = (req, res, next) => {
-    let token = req.body.token;
-    if (!token) {
+    const { accessToken } = req.cookies;
+    if (!accessToken) {
         return next(AppError.unauthorized("No token provided."));
     }
 
-    jwt.verify(token, config.secret, (err, decoded) =>{
+    jwt.verify(accessToken, config.secret, (err, decoded) =>{
         if (err) {
             return next(AppError.unauthorized("Invalid token."));
         }
         req.userId = decoded.id;
         next();
-    })
+    });
 }
 
 const isAdmin = async (req, res, next) => {

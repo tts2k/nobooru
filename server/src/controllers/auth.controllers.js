@@ -4,7 +4,8 @@ const AppError = require("../error/app-error");
 const DbError = require("../error/db-error");
 const userRepo = require("../repositories/user.repo");
 const { isStringNotNullOrEmpty } = require("../utils/misc.util");
-const HttpResCode = require("../constants").HttpResCode;
+const { HttpResCode, AccessTokenLife } = require("../constants");
+const config = require("../config/config");
 
 const checkInput = (req) => {
     const username = req.body?.username;
@@ -47,13 +48,14 @@ const signIn = async (req, res, next) => {
             return next(AppError.unauthorized("Invalid username or password"));
         }
 
-        let token = jwt.sign({ id: user.id }, process.env.SECRET, {
-            expiresIn: 86400 // 24 hours
+        const accessToken = jwt.sign({ id: user.id }, config.secret, {
+            expiresIn: AccessTokenLife
         });
 
-        res.status(HttpResCode.Ok).send({
-            message: "Login success",
-            token: token
+        res.status(HttpResCode.Ok)
+        .cookie("accessToken", accessToken, { httpOnly: true, maxAge: AccessTokenLife })
+        .send({
+            message: "Login success"
         });
     }
     catch(err) {

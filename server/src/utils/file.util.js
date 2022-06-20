@@ -33,7 +33,6 @@ const writeBufferToPath = async (buffer, path, fileName) => {
 const checkImageDirPermission = () => {
   try {
     const path = config.imageDir;
-    console.log(path);
     fs.accessSync(path, fs.constants.R_OK | fs.constants.W_OK);
     return true;
   }

@@ -12,8 +12,8 @@ const _getMany = async (page, where) => {
             skip: 20 * page,
             select: {
                 id: true,
-                fileDir: true,
                 checksum: true,
+                format: true,
                 type: {
                     select: {
                         name: true
@@ -41,7 +41,7 @@ const _getMany = async (page, where) => {
         return {
             id: e.id,
             checksum: e.checksum,
-            fileDir: e.fileDir,
+            format: e.format,
             type: e.type.name,
             tags: e.postTags.map(e => {
                 return {
@@ -119,7 +119,6 @@ const getById = async (id) => {
         id: post.id,
         checksum: post.checksum,
         originalName: post.originalName,
-        fileDir: post.fileDir,
         width: post.width,
         height: post.height,
         fileSize: post.fileSize,
@@ -172,7 +171,7 @@ const create = async (imageFile, imageDir, checksum, imageDetails, postDetails, 
                 fileDir: imageDir,
                 checksum: checksum,
                 fileSize: imageFile.size,
-                format: imageFile.mimetype,
+                format: imageDetails.format,
                 description: postDetails.description,
                 width: imageDetails.width,
                 height: imageDetails.height,

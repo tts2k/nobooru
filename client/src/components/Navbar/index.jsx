@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import Nav from "../Nav";
 
 import "./styles.scss";
@@ -10,7 +11,9 @@ const navElements = [
 ]
 
 export default function Navbar() {
+  const navbarHide = useSelector((state) => state.navbar.navbarHide);
+
   return (
-    <Nav elements={navElements} className="main-nav"/>
+    <Nav elements={navElements} className={`main-nav ${navbarHide ? 'nav-hidden' : ''}`}/>
   )
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import Navbar from "../../components/Navbar";
+import { useDispatch } from "react-redux";
+import { enableNavbar } from "../../features/navbar/navbarSlice";
 import Sidebar from "../../components/Sidebar";
 import Gallery from "../../components/Gallery";
 import api from "../../utils/api";
@@ -7,6 +8,9 @@ import api from "../../utils/api";
 import "./styles.scss";
 
 export default function BrowsePage() {
+  const dispatch = useDispatch();
+  dispatch(enableNavbar());
+
   const [data, setData] = useState({});
   const [tags, setTags] = useState({});
   const [types, setTypes] = useState({});
@@ -49,12 +53,9 @@ export default function BrowsePage() {
   }, []);
 
   return (
-    <>
-      <Navbar />
-      <div className="content">
-        <Sidebar tags={ tags } types={ types }/>
-        <Gallery posts={ data.posts } />
-      </div>
-    </>
+    <div className="content">
+      <Sidebar tags={ tags } types={ types }/>
+      <Gallery posts={ data.posts } />
+    </div>
   )
 }

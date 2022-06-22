@@ -3,3 +3,7 @@
 nav {
   @include horizontal-list;
 }
+
+.nav-hidden {
+  display: none;
+}

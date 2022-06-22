@@ -2,18 +2,12 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import StartPage from "./pages/StartPage";
 import BrowsePage from "./pages/BrowsePage";
-
-function setToken(token) {
-  sessionStorage.setItem("token", token);
-}
-
-function getToken() {
-  return sessionStorage.getItem("token");
-}
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <div className="wrapper">
+      <Navbar />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<StartPage />} />

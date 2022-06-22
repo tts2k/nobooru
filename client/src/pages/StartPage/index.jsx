@@ -1,3 +1,5 @@
+import { useDispatch } from "react-redux";
+import { disableNavbar } from "../../features/navbar/navbarSlice";
 import Nav from "../../components/Nav";
 import "./style.scss";
 
@@ -13,6 +15,8 @@ const navElements = [
 ]
 
 export default function StartPage() {
+  const dispatch = useDispatch();
+  dispatch(disableNavbar());
 
   return (
     <div className="start-container">

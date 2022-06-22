@@ -9,7 +9,7 @@ export default function Gallery({ posts }) {
       return;
 
     return posts.map(p => (
-        <img className="gallery-image" key={p.id} src={ `${ThumbBaseUrl}/thumb-${p.checksum}.${p.format}`}/>
+        <img className="gallery-image" key={p.id} src={ `${ThumbBaseUrl}/thumb-${p.checksum}.${p.format}`} alt="gallery"/>
     ));
   }
 

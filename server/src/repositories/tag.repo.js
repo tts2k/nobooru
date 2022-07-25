@@ -35,16 +35,50 @@ const searchByName = async (name) => {
                 select: {
                     name: true
                 }
-            }
+            },
         }
     });
+
     const result = tags.map(e => {
         return {
             id: e.id,
             name: e.name,
-            namespace: e.namespace.name
+            namespace: e.namespace ? e.namespace.name : "",
         }
     });
+
+    return result;
+}
+
+const searchByNameStartsWith = async (keyword) => {
+    const tags = await prisma.tag.findMany({
+        where: {
+            name: {
+                startsWith: keyword
+            }
+        },
+        take: 10,
+        select: {
+            name: true,
+            postTag: {
+                select: {
+                    tag:  {
+                        select: {
+                            name: true,
+                        }
+                    }
+                }
+            }
+        },
+    })
+
+    const result = tags.map(e => {
+        return {
+            id: e.id,
+            name: e.name,
+            postCount: e.postTag.length // Number of post with this tag
+        }
+    })
 
     return result;
 }
@@ -60,5 +94,6 @@ const deleteById = async (id) => {
 module.exports = {
     create,
     searchByName,
+    searchByNameStartsWith,
     deleteById
 }

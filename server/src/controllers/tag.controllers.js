@@ -76,8 +76,32 @@ const searchTagsByName = async (req, res, next) => {
     }
 }
 
+const searchTagsByNameStartsWith = async (req, res, next) => {
+    try {
+        const tagKeyword = req.query.key;
+
+        if (!isStringNotNullOrEmpty(tagKeyword)) {
+            return res.status(HttpResCode.BadRequest).json({
+                message: "Invalid request."
+            });
+        }
+
+        const tags = await tagRepo.searchByNameStartsWith(tagKeyword)
+
+        return res.status(HttpResCode.Ok).json({
+            tags: tags
+        })
+
+    }
+    catch (err) {
+        console.error(err);
+        next(AppError.internalError());
+    }
+}
+
 module.exports = {
     createTag,
     deleteTagById,
-    searchTagsByName
+    searchTagsByName,
+    searchTagsByNameStartsWith
 }

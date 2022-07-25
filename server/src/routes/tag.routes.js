@@ -4,7 +4,8 @@ const authJwt = require("../middleware/jwt");
 
 const router = express.Router();
 
-router.get('/', controllers.searchTagsByName);
+//router.get('/', controllers.searchTagsByName);
+router.get('/', controllers.searchTagsByNameStartsWith);
 router.post('/', [authJwt.verifyToken, authJwt.isAdmin], controllers.createTag);
 router.delete('/', [authJwt.verifyToken, authJwt.isAdmin], controllers.deleteTagById);
 
